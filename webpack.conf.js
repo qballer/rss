@@ -1,8 +1,16 @@
-const HtmlWebPackPlugin = require("html-webpack-plugin");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const webpack = require('webpack')
 const path = require('path')
+
+const htmlPath = path.resolve('./assets/index.html')
+
 module.exports = {
     mode: 'development',
-    entry: './src/client/index.tsx',
+    entry: {
+      main: './src/client',
+      tests: 'mocha-loader!./test/client'
+    },
+    devtool: "eval",
     module: {
       rules: [{
           test: /\.tsx?$/,
@@ -19,13 +27,23 @@ module.exports = {
       extensions: [ '.tsx', '.ts', '.js' ]
     },
     output: {
-      filename: 'bundle.js',
+      filename: '[name].bundle.js',
       path: path.resolve(__dirname, 'public')
     },
+    devServer: {
+      headers: {
+        'Access-Control-Allow-Origin': '*'
+      }
+    },
     plugins: [
-        new HtmlWebPackPlugin({
-            template: './src/client/index.html',
-            filename: 'index.html'
-        })
-    ]
+      new webpack.HotModuleReplacementPlugin(),
+      new HtmlWebpackPlugin({
+        chunks: ['main'],
+        template: htmlPath,
+    }),
+    new HtmlWebpackPlugin({
+        chunks: ['tests'],
+        template: htmlPath,
+        filename: 'tests.html'
+    })] 
   };

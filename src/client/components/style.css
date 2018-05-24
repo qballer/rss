@@ -1,0 +1,14 @@
+.hello {
+    background-color:black;
+    color: white;
+}
+
+.item {
+    display: inline;
+    border-bottom: 2px solid orange;
+   
+}
+.container {
+    display: grid;
+    grid-template-columns: [first] 50% [second] 50%;
+}
