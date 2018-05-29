@@ -14,7 +14,7 @@ function getXML(result:Response): Promise<string>{
     return result.text()
 }
 
-function parseFeed(xml:string): Promise<{}> {
+export function parseFeed(xml:string): Promise<{}> {
     return new Promise(function (resolve, reject){
         let handler = new feedHandler(function(error:any, feed:any) {
             return !error ? resolve(feed) : reject(error)
